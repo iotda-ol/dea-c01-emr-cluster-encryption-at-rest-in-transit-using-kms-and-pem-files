@@ -32,7 +32,7 @@ resource "aws_emr_cluster" "secure_cluster" {
 
   # Master instance group
   master_instance_group {
-    instance_type = var.emr_master_instance_type
+    instance_type  = var.emr_master_instance_type
     instance_count = 1
 
     ebs_config {
@@ -66,13 +66,13 @@ resource "aws_emr_cluster" "secure_cluster" {
     {
       Classification = "spark-defaults"
       Properties = {
-        "spark.authenticate"                    = "true"
-        "spark.authenticate.secret"             = "random-secret-string"
-        "spark.network.crypto.enabled"          = "true"
-        "spark.ssl.enabled"                     = "true"
-        "spark.eventLog.enabled"                = "true"
-        "spark.eventLog.dir"                    = "s3://${aws_s3_bucket.logs.id}/spark-logs/"
-        "spark.history.fs.logDirectory"         = "s3://${aws_s3_bucket.logs.id}/spark-logs/"
+        "spark.authenticate"            = "true"
+        "spark.authenticate.secret"     = "random-secret-string"
+        "spark.network.crypto.enabled"  = "true"
+        "spark.ssl.enabled"             = "true"
+        "spark.eventLog.enabled"        = "true"
+        "spark.eventLog.dir"            = "s3://${aws_s3_bucket.logs.id}/spark-logs/"
+        "spark.history.fs.logDirectory" = "s3://${aws_s3_bucket.logs.id}/spark-logs/"
       }
     },
     {
@@ -89,10 +89,10 @@ resource "aws_emr_cluster" "secure_cluster" {
     {
       Classification = "core-site"
       Properties = {
-        "hadoop.ssl.enabled"                           = "true"
-        "hadoop.ssl.require.client.cert"               = "false"
-        "hadoop.ssl.hostname.verifier"                 = "DEFAULT"
-        "hadoop.ssl.keystores.factory.class"           = "org.apache.hadoop.security.ssl.FileBasedKeyStoresFactory"
+        "hadoop.ssl.enabled"                 = "true"
+        "hadoop.ssl.require.client.cert"     = "false"
+        "hadoop.ssl.hostname.verifier"       = "DEFAULT"
+        "hadoop.ssl.keystores.factory.class" = "org.apache.hadoop.security.ssl.FileBasedKeyStoresFactory"
       }
     }
   ])

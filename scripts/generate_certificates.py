@@ -56,14 +56,16 @@ def generate_self_signed_certificate(private_key, common_name="*.compute.interna
     ])
     
     # Build certificate
+    from datetime import timezone
+    now = datetime.now(timezone.utc)
     cert = (
         x509.CertificateBuilder()
         .subject_name(subject)
         .issuer_name(issuer)
         .public_key(private_key.public_key())
         .serial_number(x509.random_serial_number())
-        .not_valid_before(datetime.utcnow())
-        .not_valid_after(datetime.utcnow() + timedelta(days=validity_days))
+        .not_valid_before(now)
+        .not_valid_after(now + timedelta(days=validity_days))
         .add_extension(
             x509.SubjectAlternativeName([
                 x509.DNSName(common_name),
