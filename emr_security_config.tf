@@ -24,7 +24,7 @@ resource "aws_emr_security_configuration" "encryption_config" {
         # TLS certificate configuration for in-transit encryption
         TLSCertificateConfiguration = {
           CertificateProviderType = "PEM"
-          S3Object                = "s3://${aws_s3_bucket.certificates.id}/certificates/certificateBundle.zip"
+          S3Object                = "s3://${aws_s3_bucket.certificates.id}/${var.certificate_s3_prefix}/certificateBundle.zip"
         }
       }
     }

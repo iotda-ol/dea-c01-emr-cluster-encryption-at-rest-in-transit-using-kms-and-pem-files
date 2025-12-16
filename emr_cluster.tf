@@ -66,9 +66,11 @@ resource "aws_emr_cluster" "secure_cluster" {
     {
       Classification = "spark-defaults"
       Properties = {
-        "spark.authenticate" = "true"
-        # Note: In production, use AWS Secrets Manager for spark.authenticate.secret
-        # For now, this should be set via bootstrap action or EMR configuration API
+        # Spark authentication requires additional configuration
+        # In production, configure via bootstrap action with AWS Secrets Manager:
+        # 1. Create secret in Secrets Manager
+        # 2. Add bootstrap action to retrieve and set spark.authenticate.secret
+        # 3. Enable authentication: "spark.authenticate" = "true"
         "spark.network.crypto.enabled"  = "true"
         "spark.ssl.enabled"             = "true"
         "spark.eventLog.enabled"        = "true"

@@ -52,3 +52,13 @@ output "emr_autoscaling_role_arn" {
   description = "ARN of the EMR autoscaling role"
   value       = aws_iam_role.emr_autoscaling_role.arn
 }
+
+output "certificate_s3_path" {
+  description = "S3 path for certificate upload (use with upload_certificates.py)"
+  value       = "s3://${aws_s3_bucket.certificates.id}/${var.certificate_s3_prefix}/certificateBundle.zip"
+}
+
+output "certificate_upload_command" {
+  description = "Command to upload certificates to S3"
+  value       = "python scripts/upload_certificates.py --bucket-name ${aws_s3_bucket.certificates.id} --s3-prefix ${var.certificate_s3_prefix} --kms-key-id ${aws_kms_key.emr_encryption.id}"
+}

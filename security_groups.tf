@@ -4,18 +4,21 @@ resource "aws_security_group" "emr_master" {
   description = "Security group for EMR master node with least privilege access"
   vpc_id      = var.vpc_id
 
-  # Allow HTTPS for EMR web interfaces (if needed)
-  ingress {
-    description = "HTTPS access to EMR master"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = var.allowed_cidr_blocks
+  # Allow HTTPS for EMR web interfaces (only if CIDR blocks are specified)
+  dynamic "ingress" {
+    for_each = length(var.allowed_cidr_blocks) > 0 ? [1] : []
+    content {
+      description = "HTTPS access to EMR master"
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = var.allowed_cidr_blocks
+    }
   }
 
-  # Allow SSH access (if key_name is provided)
+  # Allow SSH access (if key_name is provided and CIDR blocks are specified)
   dynamic "ingress" {
-    for_each = var.key_name != "" ? [1] : []
+    for_each = var.key_name != "" && length(var.allowed_cidr_blocks) > 0 ? [1] : []
     content {
       description = "SSH access to EMR master"
       from_port   = 22

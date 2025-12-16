@@ -22,7 +22,7 @@ except ImportError:
     sys.exit(1)
 
 
-def upload_to_s3(bucket_name, local_file_path, s3_key):
+def upload_to_s3(bucket_name, local_file_path, s3_key, kms_key_id=None):
     """
     Upload a file to S3 bucket.
     
@@ -30,6 +30,7 @@ def upload_to_s3(bucket_name, local_file_path, s3_key):
         bucket_name: Name of the S3 bucket
         local_file_path: Local path to the file to upload
         s3_key: S3 key (path) where the file will be stored
+        kms_key_id: Optional KMS key ID for encryption (uses bucket default if not provided)
     
     Returns:
         True if upload was successful, False otherwise
@@ -40,14 +41,20 @@ def upload_to_s3(bucket_name, local_file_path, s3_key):
         print(f"Uploading {local_file_path} to s3://{bucket_name}/{s3_key}...")
         
         # Upload with server-side encryption
+        extra_args = {
+            'ServerSideEncryption': 'aws:kms',
+            'StorageClass': 'STANDARD'
+        }
+        
+        # Add KMS key ID if provided
+        if kms_key_id:
+            extra_args['SSEKMSKeyId'] = kms_key_id
+        
         s3_client.upload_file(
             local_file_path,
             bucket_name,
             s3_key,
-            ExtraArgs={
-                'ServerSideEncryption': 'aws:kms',
-                'StorageClass': 'STANDARD'
-            }
+            ExtraArgs=extra_args
         )
         
         print(f"✓ Upload successful!")
@@ -152,6 +159,12 @@ def main():
         default=None,
         help="AWS region (optional, uses default AWS configuration if not specified)"
     )
+    parser.add_argument(
+        "--kms-key-id",
+        type=str,
+        default=None,
+        help="KMS key ID or ARN for encryption (optional, uses bucket default if not specified)"
+    )
     
     args = parser.parse_args()
     
@@ -181,7 +194,9 @@ def main():
     s3_key = f"{args.s3_prefix}/certificateBundle.zip"
     
     # Upload to S3
-    success = upload_to_s3(args.bucket_name, str(bundle_path), s3_key)
+    if args.kms_key_id:
+        print(f"Using KMS key: {args.kms_key_id}")
+    success = upload_to_s3(args.bucket_name, str(bundle_path), s3_key, args.kms_key_id)
     
     if success:
         print("\n" + "=" * 70)

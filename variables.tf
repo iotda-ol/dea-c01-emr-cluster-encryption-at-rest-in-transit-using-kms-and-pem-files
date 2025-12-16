@@ -51,7 +51,7 @@ variable "vpc_id" {
 }
 
 variable "allowed_cidr_blocks" {
-  description = "CIDR blocks allowed to access EMR cluster"
+  description = "CIDR blocks allowed to access EMR cluster. Must be specified to enable SSH and HTTPS access. Example: ['10.0.0.0/8']"
   type        = list(string)
   default     = []
 }
@@ -78,4 +78,10 @@ variable "log_retention_days" {
   description = "Number of days to retain logs in S3"
   type        = number
   default     = 90
+}
+
+variable "certificate_s3_prefix" {
+  description = "S3 prefix (folder) for the certificate bundle"
+  type        = string
+  default     = "certificates"
 }
