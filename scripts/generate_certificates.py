@@ -74,7 +74,8 @@ def generate_self_signed_certificate(private_key, common_name="*.compute.interna
             critical=False,
         )
         .add_extension(
-            x509.BasicConstraints(ca=True, path_length=0),
+            # Set ca=False for EMR node certificates (not used as CA)
+            x509.BasicConstraints(ca=False, path_length=None),
             critical=True,
         )
         .sign(private_key, hashes.SHA256(), default_backend())

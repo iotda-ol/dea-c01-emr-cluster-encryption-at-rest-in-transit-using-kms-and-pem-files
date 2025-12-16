@@ -43,17 +43,35 @@ variable "emr_core_instance_count" {
 variable "subnet_id" {
   description = "Subnet ID for EMR cluster deployment"
   type        = string
+
+  validation {
+    condition     = can(regex("^subnet-[a-z0-9]+$", var.subnet_id))
+    error_message = "Subnet ID must be a valid AWS subnet ID (e.g., subnet-12345678)."
+  }
 }
 
 variable "vpc_id" {
   description = "VPC ID for EMR cluster deployment"
   type        = string
+
+  validation {
+    condition     = can(regex("^vpc-[a-z0-9]+$", var.vpc_id))
+    error_message = "VPC ID must be a valid AWS VPC ID (e.g., vpc-12345678)."
+  }
 }
 
 variable "allowed_cidr_blocks" {
-  description = "CIDR blocks allowed to access EMR cluster. Must be specified to enable SSH and HTTPS access. Example: ['10.0.0.0/8']"
+  description = "CIDR blocks allowed to access EMR cluster. Must be specified to enable SSH and HTTPS access. Example: ['10.0.0.0/8']. Avoid using 0.0.0.0/0 for security."
   type        = list(string)
   default     = []
+
+  validation {
+    condition = alltrue([
+      for cidr in var.allowed_cidr_blocks :
+      can(cidrhost(cidr, 0))
+    ])
+    error_message = "All CIDR blocks must be valid CIDR notation (e.g., 10.0.0.0/8)."
+  }
 }
 
 variable "key_name" {
@@ -78,6 +96,11 @@ variable "log_retention_days" {
   description = "Number of days to retain logs in S3"
   type        = number
   default     = 90
+
+  validation {
+    condition     = var.log_retention_days > 0 && var.log_retention_days <= 3650
+    error_message = "Log retention days must be between 1 and 3650 (10 years)."
+  }
 }
 
 variable "certificate_s3_prefix" {

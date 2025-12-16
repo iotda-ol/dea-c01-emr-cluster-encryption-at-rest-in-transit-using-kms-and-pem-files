@@ -201,7 +201,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "logs" {
     }
 
     noncurrent_version_expiration {
-      noncurrent_days = 30
+      # Keep noncurrent versions for a shorter period (max 30 days or half of retention)
+      noncurrent_days = min(30, ceil(var.log_retention_days / 2))
     }
   }
 }
