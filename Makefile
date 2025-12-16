@@ -4,6 +4,7 @@
 CERT_DIR ?= ./certificates
 BUCKET_NAME ?= $(shell terraform output -raw certificates_bucket_name 2>/dev/null || echo "")
 AWS_REGION ?= us-east-1
+TERRAFORM_VERSION ?= 1.6.6
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -16,10 +17,10 @@ install-python: ## Install Python dependencies
 	pip install -r requirements.txt
 
 install-terraform: ## Install Terraform (Linux only)
-	@echo "Installing Terraform..."
+	@echo "Installing Terraform $(TERRAFORM_VERSION)..."
 	@cd /tmp && \
-	wget -q https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip && \
-	unzip -q terraform_1.6.6_linux_amd64.zip && \
+	wget -q https://releases.hashicorp.com/terraform/$(TERRAFORM_VERSION)/terraform_$(TERRAFORM_VERSION)_linux_amd64.zip && \
+	unzip -q terraform_$(TERRAFORM_VERSION)_linux_amd64.zip && \
 	sudo mv terraform /usr/local/bin/ && \
 	terraform version
 

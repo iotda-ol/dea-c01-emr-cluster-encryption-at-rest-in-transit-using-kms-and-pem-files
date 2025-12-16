@@ -66,8 +66,9 @@ resource "aws_emr_cluster" "secure_cluster" {
     {
       Classification = "spark-defaults"
       Properties = {
-        "spark.authenticate"            = "true"
-        "spark.authenticate.secret"     = "random-secret-string"
+        "spark.authenticate" = "true"
+        # Note: In production, use AWS Secrets Manager for spark.authenticate.secret
+        # For now, this should be set via bootstrap action or EMR configuration API
         "spark.network.crypto.enabled"  = "true"
         "spark.ssl.enabled"             = "true"
         "spark.eventLog.enabled"        = "true"

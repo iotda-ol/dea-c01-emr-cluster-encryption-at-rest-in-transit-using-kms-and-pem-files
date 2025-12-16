@@ -16,7 +16,7 @@ import argparse
 import os
 import sys
 import zipfile
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 try:
@@ -56,7 +56,6 @@ def generate_self_signed_certificate(private_key, common_name="*.compute.interna
     ])
     
     # Build certificate
-    from datetime import timezone
     now = datetime.now(timezone.utc)
     cert = (
         x509.CertificateBuilder()
