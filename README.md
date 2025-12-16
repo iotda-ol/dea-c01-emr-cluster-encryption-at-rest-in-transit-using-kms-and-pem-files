@@ -1,0 +1,2 @@
+# dea-c01-emr-cluster-encryption-at-rest-in-transit-using-kms-and-pem-files
+This repository demonstrates how to launch an Amazon EMR cluster with data encrypted at rest and in transit. It uses an EMR security configuration with AWS KMS for S3 encryption and a PEM certificate stored in Amazon S3 for in-transit encryption. Infrastructure is provisioned using Terraform following DEA-C01 security best practices.
