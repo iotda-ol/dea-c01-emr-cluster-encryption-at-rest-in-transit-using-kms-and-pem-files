@@ -1,0 +1,8 @@
+# Python dependencies for EMR certificate management
+
+# Cryptography library for certificate generation
+cryptography>=41.0.0
+
+# AWS SDK for Python
+boto3>=1.28.0
+botocore>=1.31.0

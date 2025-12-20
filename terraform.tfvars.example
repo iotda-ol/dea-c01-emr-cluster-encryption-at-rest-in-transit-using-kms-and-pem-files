@@ -1,0 +1,34 @@
+# Copy this file to terraform.tfvars and update with your values
+
+aws_region  = "us-east-1"
+project_name = "dea-c01-emr-secure"
+environment  = "dev"
+
+# Network configuration - REQUIRED
+subnet_id = "subnet-xxxxxxxxx"
+vpc_id    = "vpc-xxxxxxxxx"
+
+# Optional: CIDR blocks allowed to access EMR cluster
+allowed_cidr_blocks = ["10.0.0.0/8"]
+
+# Optional: EC2 key pair for SSH access
+key_name = "my-ec2-keypair"
+
+# EMR configuration
+emr_release_label       = "emr-6.15.0"
+emr_master_instance_type = "m5.xlarge"
+emr_core_instance_type   = "m5.xlarge"
+emr_core_instance_count  = 2
+
+# Security
+enable_termination_protection = false
+
+# Logging
+log_retention_days = 90
+
+# Additional tags
+tags = {
+  Owner       = "data-engineering-team"
+  CostCenter  = "engineering"
+  Compliance  = "DEA-C01"
+}

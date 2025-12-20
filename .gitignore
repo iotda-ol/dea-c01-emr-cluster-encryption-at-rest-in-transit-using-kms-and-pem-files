@@ -38,6 +38,13 @@ ENV/
 *.tfvars
 !example.tfvars
 !terraform.tfvars.example
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+.terraform/
+.terraform.lock.hcl
 crash.log
 override.tf
 override.tf.json
@@ -45,6 +52,25 @@ override.tf.json
 *_override.tf.json
 .terraformrc
 terraform.rc
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# PEM certificates (sensitive)
+*.pem
+*.key
+*.crt
+certificates/
 
 # IDE
 .vscode/
@@ -71,3 +97,10 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
