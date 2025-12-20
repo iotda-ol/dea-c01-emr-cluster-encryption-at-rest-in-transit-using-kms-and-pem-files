@@ -1,0 +1,51 @@
+# Example Terraform Variables for Development Environment
+# Copy this file to terraform.tfvars and customize
+
+# Project Configuration
+project_name = "emr-encryption"
+environment  = "dev"
+aws_region   = "us-east-1"
+
+# Network Configuration
+vpc_cidr            = "10.0.0.0/16"
+public_subnet_cidr  = "10.0.1.0/24"
+private_subnet_cidr = "10.0.2.0/24"
+availability_zone   = "us-east-1a"
+
+# EMR Cluster Configuration
+emr_release_label    = "emr-6.15.0"
+master_instance_type = "m5.xlarge"
+core_instance_type   = "m5.xlarge"
+core_instance_count  = 2
+
+# Optional: Task nodes for additional processing capacity
+# task_instance_type  = "m5.xlarge"
+# task_instance_count = 1
+
+# Security Configuration
+enable_encryption_at_rest    = true
+enable_encryption_in_transit = true
+key_pair_name                = "emr-cluster-key"
+
+# Auto-termination (recommended for dev to save costs)
+auto_terminate        = true
+idle_timeout_seconds  = 3600  # 1 hour
+
+# Storage Configuration
+enable_versioning      = true
+enable_lifecycle_rules = true
+logs_expiration_days   = 90
+data_expiration_days   = 180
+
+# Tags for Resource Management
+tags = {
+  Project     = "emr-encryption"
+  Environment = "dev"
+  ManagedBy   = "terraform"
+  Purpose     = "DEA-C01-demo"
+  Owner       = "your-email@example.com"
+  CostCenter  = "engineering"
+}
+
+# Note: Replace 'emr-cluster-key' with your actual EC2 key pair name
+# Note: Update Owner and CostCenter tags with your actual values
