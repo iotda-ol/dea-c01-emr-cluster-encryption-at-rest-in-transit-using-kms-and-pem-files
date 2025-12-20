@@ -1,3 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.log
+*.pot
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+env/
+ENV/
+.venv
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!example.tfvars
+!terraform.tfvars.example
 # Terraform
 *.tfstate
 *.tfstate.*
@@ -10,6 +50,8 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+.terraformrc
+terraform.rc
 
 # Python
 __pycache__/
@@ -36,6 +78,25 @@ certificates/
 *.swp
 *.swo
 *~
+.DS_Store
+
+# Secrets and sensitive data
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+.env
+.env.local
+
+# OS
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
 
 # OS
 .DS_Store
